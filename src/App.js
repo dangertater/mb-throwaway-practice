@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import ImageScroller from "./ImageScroller"
 
 /**
  * will check for and delete duplicate objects
@@ -91,8 +92,11 @@ export default function App() {
 					setObjects(checkForDuplicates(objects))
 				}}
 			>
-				there can only be one highlander
+				highlander
 			</button>
+			{/* ImageScroller's goal will be to have one image produced on the screen, 
+      and two buttons to scroll left or right between available photos */}
+			<ImageScroller />
 		</>
 	)
 }
