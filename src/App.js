@@ -1,11 +1,24 @@
 import React, { useState } from "react"
 
-export default function App() {
-	let [objects, setObjects] = useState([
-		{ name: "heather", age: 7, tall: true },
-		{ name: "bob", age: 12, tall: false },
-	])
+/**
+ * will check for and delete duplicate objects
+ * @param {*} obj should be an object with a name key
+ * @returns
+ */
+export let checkForDuplicates = (obj) => {
+	let filteredObject = {}
+	let filteredArray = obj.filter((f) => {
+		if (filteredObject[f.name]) {
+			return false
+		}
+		filteredObject[f.name] = true
+		return true
+	})
+	return filteredArray
+}
 
+export default function App() {
+	let [objects, setObjects] = useState([])
 	//below are new variables that I make to implement into different functions/component practice
 	let newObj0 = {
 		name: "stan",
@@ -22,10 +35,25 @@ export default function App() {
 		age: 48,
 		tall: true,
 	}
-	let newObjArray = [newObj0, newObj1, newObj2]
-	let oneTwoThree = () => {
-		return Math.floor(Math.random() * 3)
+	let newObj3 = {
+		name: "heather",
+		age: 7,
+		tall: true,
 	}
+	let newObj4 = {
+		name: "bob",
+		age: 12,
+		tall: false,
+	}
+	let newObjArray = [newObj0, newObj1, newObj2, newObj3, newObj4]
+	/**
+	 *  random whole number generator up to the lenght of newObjArray
+	 * @returns
+	 */
+	let rng = () => {
+		return Math.floor(Math.random() * newObjArray.length)
+	}
+
 	return (
 		<>
 			{/* the below json.stringify with extra arguments is a convenient hack from eric. the pre's are essentially divs and the 3 arguments
@@ -44,18 +72,27 @@ export default function App() {
 			 */}
 			<button
 				onClick={(e) => {
-					setObjects([...objects, newObjArray[oneTwoThree()]])
+					setObjects([...objects, newObjArray[rng()]])
 				}}
 			>
 				add rando
 			</button>
+			{/* clears all people from DOM */}
+			<button
+				onClick={(e) => {
+					setObjects([])
+				}}
+			>
+				clear all people
+			</button>
+			{/* will check for and delete duplicate objects*/}
+			<button
+				onClick={(e) => {
+					setObjects(checkForDuplicates(objects))
+				}}
+			>
+				there can only be one highlander
+			</button>
 		</>
 	)
 }
-
-// function App() {
-// 	let [Todo, setTodo] = (0, React.useState)([""])
-// 	return React.default.createElement(SingleTodo, {
-// 		Todo: Todo,
-// 	})
-// }
