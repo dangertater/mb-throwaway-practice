@@ -1,4 +1,10 @@
 import React, { useState } from "react"
+let IndyImg = (props) => {
+	let { src, alt } = props
+	return (
+		<img src={src} alt={alt} style={{ maxHeight: "100%", maxWidth: "100%" }} />
+	)
+}
 
 export default function ImageScroller(props) {
 	//defaultVal in below line is the value of props.defaultVal
@@ -7,14 +13,14 @@ export default function ImageScroller(props) {
 	const { defaultVal = 2 } = props
 	//multiple images below
 	let dogzillaImg = (
-		<img src={require("./dogzilla.jpg")} alt="dogzilla img failed" />
+		<IndyImg src={require("./dogzilla.jpg")} alt="dogzilla img failed" />
 	)
 
 	let potatoImg = (
-		<img src={require("./bigPotato.jpg")} alt="potato img failed" />
+		<IndyImg src={require("./bigPotato.jpg")} alt="potato img failed" />
 	)
 
-	let cowImg = <img src={require("./angryCow.jpg")} alt="cow img failed" />
+	let cowImg = <IndyImg src={require("./angryCow.jpg")} alt="cow img failed" />
 	//array of images
 	let imageArray = [dogzillaImg, potatoImg, cowImg]
 	let [currentImg, setImg] = useState(defaultVal)
@@ -25,17 +31,18 @@ export default function ImageScroller(props) {
 	// )
 	//hacks to see the rerendering occur
 	console.log("you have rerendered", currentImg)
-	console.log("prop test", JSON.stringify(props))
-	console.log()
+
 	return (
 		<>
 			<div>
-				<div>{imageArray[currentImg]}</div>
+				<div style={{ maxHeight: "200px", maxWidth: "200px" }}>
+					{imageArray[currentImg]}
+				</div>
 				{/* buttons to cycle through imageArray below */}
 				<button
 					onClick={(e) => {
 						let minus1 = currentImg - 1
-						setImg(minus1)
+						setImg(minus1 < 0 ? imageArray.length - 1 : minus1)
 					}}
 				>
 					Left
@@ -43,7 +50,7 @@ export default function ImageScroller(props) {
 				<button
 					onClick={(e) => {
 						let plus1 = currentImg + 1
-						setImg(plus1)
+						setImg(plus1 % imageArray.length)
 					}}
 				>
 					Right
