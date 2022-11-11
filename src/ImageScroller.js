@@ -1,6 +1,16 @@
 import React, { useState } from "react"
+const allAppStates = {}
+function customUseState(defaultVal, key) {
+	// black magic is here to keep track of what compenent call etc...
+	allAppStates[key] = defaultVal
+	let setVal = (newVal) => {
+		allAppStates[key] = newVal
+	}
+	return [allAppStates[key], setVal]
+}
 
 export default function ImageScroller() {
+	//multiple images below
 	let dogzillaImg = (
 		<img src={require("./dogzilla.jpg")} alt="dogzilla img failed" />
 	)
@@ -8,22 +18,13 @@ export default function ImageScroller() {
 		<img src={require("./bigPotato.jpg")} alt="potato img failed" />
 	)
 	let cowImg = <img src={require("./angryCow.jpg")} alt="cow img failed" />
+	//array of images
 	let imageArray = [dogzillaImg, potatoImg, cowImg]
-	// let currentImg = 0
 	let [currentImg, setImg] = useState([])
 
-	//logic for which img is being rendered
-	let imgScroller = (num) => {
-		if (currentImg > imageArray.length) {
-			currentImg = 0
-		} else if (currentImg < 0) {
-			currentImg = imageArray.length
-		} else {
-			currentImg = currentImg + num
-		}
-	}
 	//hacks to see the rerendering occur
 	console.log("you have rerendered")
+
 	return (
 		<>
 			<div>{JSON.stringify(currentImg)}</div>
@@ -31,14 +32,14 @@ export default function ImageScroller() {
 				<div>{imageArray[currentImg]}</div>
 				<button
 					onClick={(e) => {
-						imgScroller(-1)
+						setImg(-1)
 					}}
 				>
 					Left
 				</button>
 				<button
 					onClick={(e) => {
-						imgScroller(1)
+						setImg(1)
 					}}
 				>
 					Right
