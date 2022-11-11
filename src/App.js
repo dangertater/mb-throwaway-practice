@@ -97,6 +97,8 @@ export default function App() {
 			{/* ImageScroller's goal will be to have one image produced on the screen, 
       and two buttons to scroll left or right between available photos */}
 			<ImageScroller />
+			<ImageScroller defaultVal={0} />
 		</>
 	)
 }
+//TODO pass an array of images as a prop, make it's current images default if undefined and make it load the new array if provided
